@@ -16,7 +16,7 @@ public interface SportsProfileRepository extends JpaRepository<SportsProfile, UU
     Optional<SportsProfile> findByUser_UserId(UUID userId);
 
     @Query("SELECT new com.sports.sportsnet.dto.ProfileSummaryResponse(" +
-            "u.userId, u.fullName, p.sport, p.dateOfBirth, p.heightCm, p.weightKg, p.country) " +
+            "u.userId, u.fullName, p.sport, p.heightCm, p.weightKg, p.country) " +
             "FROM SportsProfile p JOIN p.user u")
     Page<ProfileSummaryResponse> findAllSummaries(Pageable pageable);
 }

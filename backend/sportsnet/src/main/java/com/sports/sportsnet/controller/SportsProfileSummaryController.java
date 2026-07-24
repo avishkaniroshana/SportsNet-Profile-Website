@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,14 +27,12 @@ public class SportsProfileSummaryController {
     @Operation(summary = "List all player profile summaries, paginated")
     @ApiResponse(responseCode = "200", description = "Paginated list of player summaries")
     @GetMapping
-    public ResponseEntity<Page<ProfileSummaryResponse>> getAllSummaryResponse(
+    public ResponseEntity<Page<ProfileSummaryResponse>> getAllProfileSummaries(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size ){
-
-        return ResponseEntity.ok(
-                sportsProfileSummaryService.getAllProfiles(page, size)
-        );
-
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<ProfileSummaryResponse> profiles = sportsProfileSummaryService.getAllProfileSummaries(pageable);
+        return ResponseEntity.ok(profiles);
     }
 
 

@@ -41,27 +41,3 @@ public class SportsProfileRequest {
 }
 
 
-//package com.sports.sportsnet.dto;
-//
-//import jakarta.validation.constraints.NotBlank;
-//import lombok.Getter;
-//import lombok.Setter;
-//
-//import java.time.LocalDate;
-//
-//@Getter
-//@Setter
-//public class SportsProfileRequest {
-//
-//    @NotBlank(message = "Sport is required!")
-//    private String sport;
-//
-//    private String position;
-//    private String bio;
-//    private LocalDate dateOfBirth;
-//    private Double heightCm;
-//    private Double weightKg;
-//    private String country;
-//    private String location;
-//    private boolean contactVisible; //defaults to false if omitted
-//}
