@@ -7,7 +7,8 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Getter @Setter
+@Getter
+@Setter
 public class TeamDetailRequest {
     @Schema(description = "Name of the team", example = "Ruhuna University Cricket Team")
     @NotBlank(message = "Team name is required!")

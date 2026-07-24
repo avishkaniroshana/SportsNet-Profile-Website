@@ -6,7 +6,9 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 
-@Getter @Builder @AllArgsConstructor
+@Getter
+@Builder
+@AllArgsConstructor
 public class EducationalDetailResponse {
     private String id;
     private String institutionName;

@@ -6,7 +6,9 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 
-@Getter @Builder @AllArgsConstructor
+@Getter
+@Builder
+@AllArgsConstructor
 public class TeamDetailResponse {
     private String id;
     private String teamName;
