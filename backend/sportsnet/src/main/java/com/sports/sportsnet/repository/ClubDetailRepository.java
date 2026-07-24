@@ -1,0 +1,13 @@
+package com.sports.sportsnet.repository;
+
+import com.sports.sportsnet.entity.ClubDetail;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+public interface ClubDetailRepository extends JpaRepository<ClubDetail, UUID> {
+    List<ClubDetail> findByUser_UserId(UUID userId);
+    Optional<ClubDetail> findByIdAndUser_UserId(UUID id, UUID userId);
+}

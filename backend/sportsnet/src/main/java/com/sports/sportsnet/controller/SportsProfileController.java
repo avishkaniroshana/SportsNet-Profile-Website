@@ -1,0 +1,43 @@
+package com.sports.sportsnet.controller;
+
+import com.sports.sportsnet.dto.SportsProfileRequest;
+import com.sports.sportsnet.dto.SportsProfileResponse;
+import com.sports.sportsnet.security.SecurityUtils;
+import com.sports.sportsnet.services.SportsProfileService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/profiles")
+@RequiredArgsConstructor
+@Tag(name = "Sports Profile", description = "Create, update, and view a single player's full sports profile")
+public class SportsProfileController {
+
+    private final SportsProfileService sportsProfileService;
+
+    @Operation(summary = "Create or update the logged-in player's own sports profile")
+    @ApiResponse(responseCode = "200", description = "Profile saved successfully")
+    @ApiResponse(responseCode = "403", description = "Not authenticated!")
+    @PutMapping("/me")
+    public ResponseEntity<SportsProfileResponse> updateMyProfile(@Valid @RequestBody SportsProfileRequest request) {
+        String email = SecurityUtils.getCurrentUserEmail();
+        return ResponseEntity.ok(sportsProfileService.createOrUpdateProfile(email, request));
+    }
+
+    @Operation(summary = "Get a single player's full sports profile after logging in")
+    @ApiResponse(responseCode = "200", description = "Profile found")
+    @ApiResponse(responseCode = "400", description = "Profile not found for this user!")
+    @GetMapping("/{userId}")
+    public ResponseEntity<SportsProfileResponse> getProfile(@PathVariable UUID userId) {
+        return ResponseEntity.ok(sportsProfileService.getProfileByUserId(userId));
+    }
+
+}

@@ -1,0 +1,48 @@
+package com.sports.sportsnet.controller;
+
+import com.sports.sportsnet.dto.EducationalDetailRequest;
+import com.sports.sportsnet.dto.EducationalDetailResponse;
+import com.sports.sportsnet.security.SecurityUtils;
+import com.sports.sportsnet.services.EducationalDetailService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/education")
+@RequiredArgsConstructor
+public class EducationalDetailController {
+
+    private final EducationalDetailService educationalDetailService;
+
+    @PostMapping
+    public ResponseEntity<EducationalDetailResponse> add(@Valid @RequestBody EducationalDetailRequest request) {
+        return ResponseEntity.ok(educationalDetailService.add(SecurityUtils.getCurrentUserEmail(), request));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EducationalDetailResponse> update(@PathVariable UUID id,
+                                                            @Valid @RequestBody EducationalDetailRequest request) {
+        return ResponseEntity.ok(educationalDetailService.update(SecurityUtils.getCurrentUserEmail(), id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        educationalDetailService.delete(SecurityUtils.getCurrentUserEmail(), id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<List<EducationalDetailResponse>> getMine() {
+        return ResponseEntity.ok(educationalDetailService.getMine(SecurityUtils.getCurrentUserEmail()));
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<EducationalDetailResponse>> getByUser(@PathVariable UUID userId) {
+        return ResponseEntity.ok(educationalDetailService.getByUserId(userId));
+    }
+}

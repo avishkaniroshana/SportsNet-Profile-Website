@@ -1,0 +1,48 @@
+package com.sports.sportsnet.controller;
+
+import com.sports.sportsnet.dto.AchievementRequest;
+import com.sports.sportsnet.dto.AchievementResponse;
+import com.sports.sportsnet.security.SecurityUtils;
+import com.sports.sportsnet.services.AchievementService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/achievements")
+@RequiredArgsConstructor
+public class AchievementController {
+
+    private final AchievementService achievementService;
+
+    @PostMapping
+    public ResponseEntity<AchievementResponse> add(@Valid @RequestBody AchievementRequest request) {
+        return ResponseEntity.ok(achievementService.add(SecurityUtils.getCurrentUserEmail(), request));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AchievementResponse> update(@PathVariable UUID id,
+                                                      @Valid @RequestBody AchievementRequest request) {
+        return ResponseEntity.ok(achievementService.update(SecurityUtils.getCurrentUserEmail(), id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        achievementService.delete(SecurityUtils.getCurrentUserEmail(), id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<List<AchievementResponse>> getMine() {
+        return ResponseEntity.ok(achievementService.getMine(SecurityUtils.getCurrentUserEmail()));
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<AchievementResponse>> getByUser(@PathVariable UUID userId) {
+        return ResponseEntity.ok(achievementService.getByUserId(userId));
+    }
+}
