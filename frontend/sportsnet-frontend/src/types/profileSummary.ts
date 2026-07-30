@@ -6,6 +6,7 @@ export interface ProfileSummaryResponse {
   heightCm: number | null;
   weightKg: number | null;
   country: string | null;
+  profileImageUrl: string | null;
 }
 
 export interface PageResponse<T> {

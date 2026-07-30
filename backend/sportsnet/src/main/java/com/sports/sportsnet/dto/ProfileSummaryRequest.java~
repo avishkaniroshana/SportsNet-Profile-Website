@@ -8,8 +8,8 @@ import lombok.Setter;
 @Setter
 public class ProfileSummaryRequest {
 
-    @Schema(description = "Unique identifier of the user", example = "3f2504e0-4f89-11d3-9a0c-0305e82c3301")
-    private String userId;
+//    @Schema(description = "Unique identifier of the user", example = "3f2504e0-4f89-11d3-9a0c-0305e82c3301")
+//    private String userId;
 
     @Schema(description = "Full name of the player", example = "Chamara Perera")
     private String fullName;
@@ -29,26 +29,3 @@ public class ProfileSummaryRequest {
     @Schema(description = "Player's country", example = "Sri Lanka")
     private String country;
 }
-
-
-//package com.sports.sportsnet.dto;
-//
-//import lombok.Getter;
-//import lombok.Setter;
-//
-//import javax.xml.validation.Schema;
-//
-//@Getter
-//@Setter
-//
-//public class ProfileSummaryRequest {
-//
-//    private String userId;
-//    private String fullName;
-//    private String sport;
-//    private Integer age;
-//    private Double heightCm;
-//    private Double weightKg;
-//    private String country;
-//
-//}

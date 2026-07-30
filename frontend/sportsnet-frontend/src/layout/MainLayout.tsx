@@ -1,4 +1,3 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
 import TopNavBar from "../components/TopNavBar";
 import LeftNavBar from "../components/LeftNavBar";
@@ -8,14 +7,14 @@ const MainLayout = () => {
   const { user } = useAuth();
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-50">
       <TopNavBar />
-      <div className="flex">
-        {user && <LeftNavBar />}
-        <main className="flex-1 p-6">
+      {user && <LeftNavBar />}
+      <main className={`pt-16 min-h-screen ${user ? "pl-60" : ""}`}>
+        <div className="p-6">
           <Outlet />
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 };

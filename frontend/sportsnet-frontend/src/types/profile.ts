@@ -22,7 +22,7 @@ export interface SportsProfileResponse {
   weightKg: number | null;
   country: string | null;
   location: string | null;
-//   profileImageUrl: string | null;
+  profileImageUrl: string | null;
   telephone: string | null;
   email: string | null;
 }

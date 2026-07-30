@@ -38,7 +38,7 @@ public class SportsProfile {
     private Double weightKg;
     private String country;
     private String location;
-    private String profileImageUrl;
+    private String profileImagePath; //
 
     @Column(nullable = false)
     private boolean contactVisible;

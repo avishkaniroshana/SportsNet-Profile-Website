@@ -18,7 +18,7 @@ public class SportsProfileResponse {
     private Double weightKg;
     private String country;
     private String location;
-//    private String profileImageUrl;
     private String telephone;
     private String email;
+    private String profileImageUrl;
 }

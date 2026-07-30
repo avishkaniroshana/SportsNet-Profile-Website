@@ -13,13 +13,13 @@ import java.util.UUID;
 @Builder
 public class ProfileSummaryResponse {
 
-    private UUID userId;
     private String fullName;
     private String sport;
     private LocalDate dateOfBirth;
     private Double heightCm;
     private Double weightKg;
     private String country;
+    private String profileImageUrl;
 
     // Calculated field - age is computed from dateOfBirth
     public Integer getAge() {
@@ -29,3 +29,4 @@ public class ProfileSummaryResponse {
         return Period.between(dateOfBirth, LocalDate.now()).getYears();
     }
 }
+

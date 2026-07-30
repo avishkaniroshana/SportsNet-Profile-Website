@@ -8,8 +8,7 @@ import lombok.Setter;
 @Setter
 public class ProfileSummaryRequest {
 
-    @Schema(description = "Unique identifier of the user", example = "3f2504e0-4f89-11d3-9a0c-0305e82c3301")
-    private String userId;
+
 
     @Schema(description = "Full name of the player", example = "Chamara Perera")
     private String fullName;
