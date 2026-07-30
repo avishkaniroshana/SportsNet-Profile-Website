@@ -3,20 +3,27 @@ package com.sports.sportsnet.services;
 import com.sports.sportsnet.dto.AuthResponse;
 import com.sports.sportsnet.dto.LoginRequest;
 import com.sports.sportsnet.dto.SignupRequest;
+import com.sports.sportsnet.entity.RefreshToken;
 import com.sports.sportsnet.entity.User;
+import com.sports.sportsnet.repository.RefreshTokenRepository;
 import com.sports.sportsnet.repository.UserRepository;
+import com.sports.sportsnet.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.sports.sportsnet.security.JwtUtil;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+
+    private static final long REFRESH_TOKEN_VALID_DAYS = 7;
 
     public AuthResponse signup(SignupRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -32,19 +39,39 @@ public class UserService {
 
         User saved = userRepository.save(user);
 
-        String token = jwtUtil.generateToken(saved.getUserId().toString(), saved.getEmail());
-        return new AuthResponse(token, saved.getUserId().toString(), saved.getFullName(), saved.getEmail());
+        return buildAuthResponse(saved);
     }
 
     public AuthResponse login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password!"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("Invalid email or password");
+            throw new IllegalArgumentException("Invalid email or password!");
         }
 
-        String token = jwtUtil.generateToken(user.getUserId().toString(), user.getEmail());
-        return new AuthResponse(token, user.getUserId().toString(), user.getFullName(), user.getEmail());
+        return buildAuthResponse(user);
+    }
+
+    public void logout(String refreshTokenValue) {
+        RefreshToken refreshToken = refreshTokenRepository.findByToken(refreshTokenValue)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid refresh token!"));
+
+        refreshTokenRepository.delete(refreshToken);
+    }
+
+    private AuthResponse buildAuthResponse(User user) {
+        String accessToken = jwtUtil.generateAccessToken(user.getUserId().toString(), user.getEmail(), "USER");
+        String refreshTokenValue = jwtUtil.generateRefreshToken(user.getEmail());
+
+        RefreshToken refreshToken = RefreshToken.builder()
+                .token(refreshTokenValue)
+                .user(user)
+                .expiryDate(LocalDateTime.now().plusDays(REFRESH_TOKEN_VALID_DAYS))
+                .build();
+        refreshTokenRepository.save(refreshToken);
+
+        return new AuthResponse(accessToken, refreshTokenValue, user.getUserId().toString(), user.getFullName(), user.getEmail());
     }
 }
+

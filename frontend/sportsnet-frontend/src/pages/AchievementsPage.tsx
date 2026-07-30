@@ -114,7 +114,7 @@ const AchievementsPage = () => {
           <div className="flex gap-3 pt-1">
             <button
               type="submit"
-              className="flex-1 bg-amber-600 text-white py-2.5 rounded-xl font-medium hover:bg-amber-700 transition-colors"
+              className="flex-1 bg-blue-800 text-white py-2.5 rounded-xl font-medium hover:bg-blue-700 transition-colors"
             >
               {editingId ? "Update" : "Add"}
             </button>
@@ -145,7 +145,7 @@ const AchievementsPage = () => {
             {items.map((item) => (
               <div
                 key={item.id}
-                className="group border border-gray-100 border-l-4 border-l-amber-500 rounded-xl p-4 flex justify-between items-start hover:shadow-md transition-shadow"
+                className="group border border-gray-100 border-l-4 border-l-blue-500 rounded-xl p-4 flex justify-between items-start hover:shadow-md transition-shadow"
               >
                 <div>
                   <p className="font-semibold text-gray-900">{item.title}</p>
@@ -158,7 +158,7 @@ const AchievementsPage = () => {
                 <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button
                     onClick={() => handleEdit(item)}
-                    className="text-xs font-medium text-amber-600 hover:bg-amber-50 px-2.5 py-1 rounded-lg"
+                    className="text-xs font-medium text-blue-600 hover:bg-blue-50 px-2.5 py-1 rounded-lg"
                   >
                     Edit
                   </button>

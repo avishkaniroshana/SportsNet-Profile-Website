@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_ORIGIN = "http://localhost:8080"; // for  image URLs
+export const API_ORIGIN = import.meta.env.VITE_API_ORIGIN;
 
 export const api = axios.create({
   baseURL: `${API_ORIGIN}/api`,
@@ -18,8 +18,10 @@ api.interceptors.request.use((config) => {
 
 // import axios from "axios";
 
+// export const API_ORIGIN = "http://localhost:8080"; // for  image URLs
+
 // export const api = axios.create({
-//   baseURL: "http://localhost:8080/api",
+//   baseURL: `${API_ORIGIN}/api`,
 // });
 
 // api.interceptors.request.use((config) => {

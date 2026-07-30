@@ -1,6 +1,13 @@
-import React from 'react'
+import React, { useEffect } from "react";
 
 const AboutPage = () => {
+  useEffect(() => {
+    console.log(
+      "import.meta.env.VITE_API_ORIGIN",
+      import.meta.env.VITE_API_ORIGIN,
+    );
+  }, []);
+
   return (
     <div>
       <>
@@ -14,9 +21,6 @@ const AboutPage = () => {
       </>
     </div>
   );
-}
+};
 
-export default AboutPage
-
-
-
+export default AboutPage;

@@ -361,7 +361,7 @@ const ProfilePage = () => {
             <input
               type="checkbox"
               {...register("contactVisible")}
-              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              className="rounded border-gray-300 text-blue-800 focus:ring-blue-700"
             />
             Show my phone/email on my public profile
           </label>
@@ -370,7 +370,7 @@ const ProfilePage = () => {
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 bg-blue-600 text-white py-2.5 rounded-xl font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
+              className="flex-1 bg-blue-800 text-white py-2.5 rounded-xl font-medium hover:bg-blue-700 disabled:opacity-50 transition-colors"
             >
               {saving ? "Saving..." : "Save Profile"}
             </button>
