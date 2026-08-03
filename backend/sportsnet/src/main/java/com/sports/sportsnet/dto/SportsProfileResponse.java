@@ -8,17 +8,10 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class SportsProfileResponse {
+    private String id;
     private String userId;
-    private String fullName;
     private String sport;
     private String position;
     private String bio;
-    private Integer age;
-    private Double heightCm;
-    private Double weightKg;
-    private String country;
-    private String location;
-    private String telephone;
-    private String email;
-    private String profileImageUrl;
 }
+

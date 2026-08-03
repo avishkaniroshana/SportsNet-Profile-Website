@@ -13,6 +13,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = "sportProfile")
 public class TeamDetail {
 
     @Id
@@ -21,8 +23,8 @@ public class TeamDetail {
     private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "sport_profile_id", nullable = false)
+    private SportsProfile sportProfile;
 
     @Column(nullable = false)
     private String teamName;
@@ -33,3 +35,4 @@ public class TeamDetail {
     private LocalDate startDate;
     private LocalDate endDate;
 }
+

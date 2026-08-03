@@ -11,8 +11,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class TeamDetailResponse {
     private String id;
+    private String sportProfileId;
     private String teamName;
     private String details;
     private LocalDate startDate;
     private LocalDate endDate;
 }
+
+

@@ -2,10 +2,10 @@ package com.sports.sportsnet.services;
 
 import com.sports.sportsnet.dto.TeamDetailRequest;
 import com.sports.sportsnet.dto.TeamDetailResponse;
+import com.sports.sportsnet.entity.SportsProfile;
 import com.sports.sportsnet.entity.TeamDetail;
-import com.sports.sportsnet.entity.User;
+import com.sports.sportsnet.repository.SportsProfileRepository;
 import com.sports.sportsnet.repository.TeamDetailRepository;
-import com.sports.sportsnet.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +18,13 @@ import java.util.stream.Collectors;
 public class TeamDetailService {
 
     private final TeamDetailRepository teamDetailRepository;
-    private final UserRepository userRepository;
+    private final SportsProfileRepository sportsProfileRepository;
 
-    public TeamDetailResponse add(String currentUserEmail, TeamDetailRequest request) {
-        User user = userRepository.findByEmail(currentUserEmail)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public TeamDetailResponse add(String currentUserEmail, UUID sportsProfileId, TeamDetailRequest request) {
+        SportsProfile sportsProfile = getOwnedSportProfile(currentUserEmail, sportsProfileId);
 
         TeamDetail detail = TeamDetail.builder()
-                .user(user)
+                .sportProfile(sportsProfile)
                 .teamName(request.getTeamName())
                 .details(request.getDetails())
                 .startDate(request.getStartDate())
@@ -35,11 +34,10 @@ public class TeamDetailService {
         return toResponse(teamDetailRepository.save(detail));
     }
 
-    public TeamDetailResponse update(String currentUserEmail, UUID id, TeamDetailRequest request) {
-        User user = userRepository.findByEmail(currentUserEmail)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public TeamDetailResponse update(String currentUserEmail, UUID sportProfileId, UUID id, TeamDetailRequest request) {
+        getOwnedSportProfile(currentUserEmail, sportProfileId);
 
-        TeamDetail detail = teamDetailRepository.findByIdAndUser_UserId(id, user.getUserId())
+        TeamDetail detail = teamDetailRepository.findByIdAndSportProfile_Id(id, sportProfileId)
                 .orElseThrow(() -> new IllegalArgumentException("Record not found"));
 
         detail.setTeamName(request.getTeamName());
@@ -50,31 +48,31 @@ public class TeamDetailService {
         return toResponse(teamDetailRepository.save(detail));
     }
 
-    public void delete(String currentUserEmail, UUID id) {
-        User user = userRepository.findByEmail(currentUserEmail)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public void delete(String currentUserEmail, UUID sportProfileId, UUID id) {
+        getOwnedSportProfile(currentUserEmail, sportProfileId);
 
-        TeamDetail detail = teamDetailRepository.findByIdAndUser_UserId(id, user.getUserId())
+        TeamDetail detail = teamDetailRepository.findByIdAndSportProfile_Id(id, sportProfileId)
                 .orElseThrow(() -> new IllegalArgumentException("Record not found"));
 
         teamDetailRepository.delete(detail);
     }
 
-    public List<TeamDetailResponse> getMine(String currentUserEmail) {
-        User user = userRepository.findByEmail(currentUserEmail)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        return getByUserId(user.getUserId());
-    }
-
-    public List<TeamDetailResponse> getByUserId(UUID userId) {
-        return teamDetailRepository.findByUser_UserId(userId).stream()
+    public List<TeamDetailResponse> getBySportProfileId(UUID sportProfileId) {
+        return teamDetailRepository.findBySportProfile_Id(sportProfileId).stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
+    }
+
+    private SportsProfile getOwnedSportProfile(String currentUserEmail, UUID sportProfileId) {
+        return sportsProfileRepository.findById(sportProfileId)
+                .filter(sp -> sp.getUser().getEmail().equalsIgnoreCase(currentUserEmail))
+                .orElseThrow(() -> new IllegalArgumentException("Sport profile not found or does not belong to this user"));
     }
 
     private TeamDetailResponse toResponse(TeamDetail detail) {
         return TeamDetailResponse.builder()
                 .id(detail.getId().toString())
+                .sportProfileId(detail.getSportProfile().getId().toString())
                 .teamName(detail.getTeamName())
                 .details(detail.getDetails())
                 .startDate(detail.getStartDate())

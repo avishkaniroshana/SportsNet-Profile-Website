@@ -17,3 +17,5 @@ public class SportsProfileSummaryService {
         return sportsProfileRepository.findAllSummaries(pageable);
     }
 }
+
+

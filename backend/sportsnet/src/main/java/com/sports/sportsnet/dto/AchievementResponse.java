@@ -9,6 +9,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public class AchievementResponse {
     private String id;
+    private String sportProfileId;
     private String title;
     private String description;
 }
+
+
+
