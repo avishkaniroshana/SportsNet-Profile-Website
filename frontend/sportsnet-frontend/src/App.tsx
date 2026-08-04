@@ -8,12 +8,14 @@ import SigninPage from "./pages/SigninPage";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import PlayersListPage from "./pages/PlayersListPage";
-import ProfilePage from "./pages/ProfilePage";
 import EducationalDetailsPage from "./pages/EducationalDetailsPage";
-import ClubDetailsPage from "./pages/ClubDetailsPage";
-import TeamDetails from "./pages/TeamDetails";
 import AchievementsPage from "./pages/AchievementsPage";
 import PreviewPage from "./pages/PreviewPage";
+import PersonalProfilePage from "./pages/PersonalProfilePage";
+import TeamDetailsPage from "./pages/TeamDetailsPage";
+import ClubDetailsPage from "./pages/ClubDetailsPage";
+import SportProfileDetailPage from "./pages/SportProfileDetailPage";
+import SportProfilesPage from "./pages/SportProfilesPage";
 
 function App() {
   return (
@@ -34,7 +36,7 @@ function App() {
               path="/account/personal"
               element={
                 <ProtectedRoute>
-                  <ProfilePage />
+                  <PersonalProfilePage />
                 </ProtectedRoute>
               }
             />
@@ -46,6 +48,25 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
+            <Route
+              path="/account/sports/:sportProfileId"
+              element={
+                <ProtectedRoute>
+                  <SportProfileDetailPage />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/account/sports"
+              element={
+                <ProtectedRoute>
+                  <SportProfilesPage />
+                </ProtectedRoute>
+              }
+            />
+
             <Route
               path="/account/clubs"
               element={
@@ -54,14 +75,16 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
             <Route
               path="/account/teams"
               element={
                 <ProtectedRoute>
-                  <TeamDetails />
+                  <TeamDetailsPage />
                 </ProtectedRoute>
               }
             />
+
             <Route
               path="/account/achievements"
               element={
@@ -70,6 +93,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
             <Route
               path="/account/preview"
               element={

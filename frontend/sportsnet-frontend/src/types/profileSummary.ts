@@ -1,12 +1,14 @@
 export interface ProfileSummaryResponse {
   userId: string;
+  sportProfileId: string;
   fullName: string;
   sport: string;
-  age: number | null;
+  dateOfBirth?: string | null;
   heightCm: number | null;
   weightKg: number | null;
   country: string | null;
   profileImageUrl: string | null;
+  age: number | null;
 }
 
 export interface PageResponse<T> {
